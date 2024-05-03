@@ -1,5 +1,7 @@
 package basic
 
+import io.qameta.allure.Allure.attachment
+import io.qameta.allure.Allure.step
 import java.lang.Integer.sum
 import org.apache.logging.log4j.kotlin.logger
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -27,5 +29,19 @@ class BasicTests {
         logger.trace("Сообщение в режиме трассировки! ${createLogMessage()}")
         logger.trace { "Еще одно сообщение в режиме трассировки! ${createLogMessage()}" }
         logger.info { "Информационное сообщение!" }
+    }
+
+    @Test
+    @DisplayName("Использование allure 2")
+    fun `test Allure with lambda steps`() {
+        step("Шаг 1") { _ ->
+            step("Шаг 1.1")
+            step("Шаг 1.2") { _ ->
+                attachment("Текстовое вложение", "Текст вложения")
+            }
+        }
+        step("Шаг 2") { _ ->
+            logger.info("Лог шага 2")
+        }
     }
 }
