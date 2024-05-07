@@ -3,6 +3,10 @@ package basic
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import exposed.sample.h2.db.PrepareH2TestDb
+import exposed.sample.h2.db.PrepareH2TestDb.testH2Db
+import exposed.sample.h2.db.model.UsersTable
+import exposed.sample.h2.db.model.UsersTable.name
 import github.be.dto.GitHubTagDto
 import io.qameta.allure.Allure.attachment
 import io.qameta.allure.Allure.step
@@ -16,6 +20,10 @@ import org.apache.logging.log4j.kotlin.logger
 import org.hamcrest.CoreMatchers.hasItem
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.hasEntry
+import org.hamcrest.Matchers.hasItems
+import org.hamcrest.Matchers.iterableWithSize
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
@@ -78,6 +86,19 @@ class BasicTests {
         val typeRef = mapper.typeFactory.constructType(object : TypeReference<List<GitHubTagDto>>() {})
         val tagList = mapper.readValue<List<GitHubTagDto>>(tagsJsonString, typeRef)
         assertThat("Список тэгов REST Assured на GitHub", tagList.map { it.name }, hasItem("rest-assured-5.4.0"))
+    }
+
+    @Test
+    fun exposedH2DemoTest() {
+        /* Given */
+        PrepareH2TestDb.createH2TestDb()
+        transaction(testH2Db) {
+            /* When */
+            val userNames = UsersTable.selectAll().map { it[name] }
+            /* Then */
+            assertThat("Имена пользователей", userNames, iterableWithSize(2))
+            assertThat("Имена пользователей", userNames, hasItems(*listOf("Andrey", "Sergey").toTypedArray()))
+        }
     }
 
     companion object {
