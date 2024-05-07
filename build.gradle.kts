@@ -11,6 +11,8 @@ val log4jApiKotlinVersion = "1.4.0"
 val log4jVersion = "2.23.1"
 val allureVersion = "2.26.0"
 val aspectJVersion = "1.9.22"
+val restAssuredVersion = "5.4.0"
+val jacksonVersion = "2.16.1"
 
 repositories {
     mavenCentral()
@@ -36,6 +38,14 @@ dependencies {
     testImplementation(platform("io.qameta.allure:allure-bom:$allureVersion"))
     testImplementation("io.qameta.allure:allure-junit5")
     agent("org.aspectj:aspectjweaver:$aspectJVersion")
+
+    /* -----Адаптеры (драйверы) */
+    /* Адаптер для работы с REST-API */
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
+    /* Адаптер для работы с JSON */
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
     testImplementation(kotlin("test"))
 }
