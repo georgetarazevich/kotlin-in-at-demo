@@ -56,7 +56,7 @@ dependencies {
     /* Драйвер для работы с БД H2 */
     implementation("com.h2database:h2:$h2databaseVersion")
     /* Адаптер для работы с WEB GUI драйверами */
-    testImplementation("com.codeborne:selenide:$selenideVersion")
+    implementation("com.codeborne:selenide:$selenideVersion")
 
     testImplementation(kotlin("test"))
 }
