@@ -1,5 +1,11 @@
 package basic
 
+import com.codeborne.selenide.Condition.href
+import com.codeborne.selenide.Condition.matchText
+import com.codeborne.selenide.Condition.text
+import com.codeborne.selenide.Condition.visible
+import com.codeborne.selenide.Selenide.`$`
+import com.codeborne.selenide.Selenide.open
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -28,6 +34,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.By
 
 @DisplayName("Набор базовых тестов")
 class BasicTests {
@@ -99,6 +106,26 @@ class BasicTests {
             assertThat("Имена пользователей", userNames, iterableWithSize(2))
             assertThat("Имена пользователей", userNames, hasItems(*listOf("Andrey", "Sergey").toTypedArray()))
         }
+    }
+
+    @Test
+    @DisplayName("Использование selenide")
+    fun selenideExampleTest() {
+        /* Given */
+        open("https://www.google.com/")
+        /* When */
+        `$`(By.name("q")).`val`("Selenide")
+        /* Then */
+        val options = `$`(By.xpath("//ul[@role='listbox']"))
+        options.shouldBe(visible)
+        options.`$$`(By.xpath(".//li[@role='presentation']"))
+            .forEach { it.should(matchText("selenide")) }
+        /* When */
+        `$`(By.name("btnK")).click()
+        /* Then */
+        `$`(By.xpath("//a[@jsname and .//h3]"))
+            .shouldHave(href("https://ru.selenide.org"))
+            .shouldHave(text("Selenide: лаконичные и стабильные UI тесты на Java"))
     }
 
     companion object {

@@ -15,6 +15,7 @@ val restAssuredVersion = "5.4.0"
 val jacksonVersion = "2.16.1"
 val exposedVersion = "0.50.0"
 val h2databaseVersion = "2.2.224"
+val selenideVersion = "7.2.3"
 
 repositories {
     mavenCentral()
@@ -54,6 +55,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     /* Драйвер для работы с БД H2 */
     implementation("com.h2database:h2:$h2databaseVersion")
+    /* Адаптер для работы с WEB GUI драйверами */
+    testImplementation("com.codeborne:selenide:$selenideVersion")
 
     testImplementation(kotlin("test"))
 }
