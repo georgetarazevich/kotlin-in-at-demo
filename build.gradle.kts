@@ -39,14 +39,14 @@ dependencies {
 
     /* ----- Отчет о результатах выполнения тестов */
     /* Документация allure: https://allurereport.org/docs/junit5/ */
-    testImplementation(platform("io.qameta.allure:allure-bom:$allureVersion"))
-    testImplementation("io.qameta.allure:allure-junit5")
+    implementation(platform("io.qameta.allure:allure-bom:$allureVersion"))
+    implementation("io.qameta.allure:allure-junit5")
     agent("org.aspectj:aspectjweaver:$aspectJVersion")
 
     /* -----Адаптеры (драйверы) */
     /* Адаптер для работы с REST-API */
-    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
-    testImplementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
+    implementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    implementation("io.rest-assured:kotlin-extensions:$restAssuredVersion")
     /* Адаптер для работы с JSON */
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
